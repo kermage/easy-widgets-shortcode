@@ -40,6 +40,9 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             if ( empty( $id ) )
                 return;
             
+            if ( ! dynamic_sidebar( $id ) )
+                return;
+            
             ob_start();
             dynamic_sidebar( $id );
             $output = ob_get_clean();
@@ -74,6 +77,9 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                     }
                 }
             }
+            
+            if( ! $wp_registered_sidebars[$sidebar_id] )
+                return;
             
             $callback = $wp_registered_widgets[$id]['callback'];
             $params = apply_filters( 'dynamic_sidebar_params',
