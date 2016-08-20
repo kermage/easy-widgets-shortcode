@@ -49,7 +49,8 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
         public function widget_shortcode( $atts ) {
             
             extract( shortcode_atts( array(
-                'id'  => ''
+                'id'    => '',
+                'wrap'  => ''
             ), $atts ) );
             
             global $wp_registered_sidebars;
@@ -79,6 +80,17 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             
             $classname = $wp_registered_widgets[$id]['classname'];
             $params[0]['before_widget'] = sprintf( $params[0]['before_widget'], $id, $classname );
+            
+            if ( ! empty( $wrap ) ) {
+                if ( $wrap == 'false' ) {
+                    $params[0]['before_widget'] = '';
+                    $params[0]['after_widget'] = '';
+                } else {
+                    preg_match( '/<\/([^>]+)>/', $params[0]['after_widget'], $def_wrap );
+                    $params[0]['before_widget'] = str_replace( $def_wrap[1], $wrap, $params[0]['before_widget'] );
+                    $params[0]['after_widget'] = '</' . $wrap . '>';
+                }
+            }
             
             ob_start();
             call_user_func_array( $callback, $params );
