@@ -37,6 +37,9 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 'id'  => ''
             ), $atts ) );
             
+            if ( empty( $id ) )
+                return;
+            
             ob_start();
             dynamic_sidebar( $id );
             $output = ob_get_clean();
@@ -53,6 +56,9 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 'wrap'  => '',
                 'title'  => ''
             ), $atts ) );
+            
+            if ( empty( $id ) )
+                return;
             
             global $wp_registered_sidebars;
             global $wp_registered_widgets;
