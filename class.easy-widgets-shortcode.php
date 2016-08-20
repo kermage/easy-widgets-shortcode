@@ -27,6 +27,7 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             add_shortcode( 'ews_sidebar', array( $this, 'sidebar_shortcode' ) );
             add_shortcode( 'ews_widget', array( $this, 'widget_shortcode' ) );
             add_action( 'in_widget_form', array( $this, 'shortcode_info' ) );
+            add_action( 'widgets_init', array( $this, 'shortcodes_area' ) );
             
         }
         
@@ -135,6 +136,20 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 echo '<code>[ews_widget id="' . $widget_instance->id . '"]</code></p>';
             }
             
+        }
+        
+        
+        public function shortcodes_area() {
+            register_sidebar( array(
+                'name'          => __( 'Easy Widgets Shortcode', 'ews' ),
+                'id'            => 'ews-sidebar',
+                'description'   => __( 'Add widgets here to be used as shortcodes.', 'ews' ),
+                'class'         => '',
+                'before_widget' => '',
+                'after_widget'  => '',
+                'before_title'  => '',
+                'after_title'   => ''
+            ) );
         }
         
     }
