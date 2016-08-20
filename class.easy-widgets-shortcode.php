@@ -24,6 +24,22 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
         
         private function __construct() {
             
+            add_shortcode( 'ews_sidebar', array( $this, 'sidebar_shortcode' ) );
+            
+        }
+        
+        
+        public function sidebar_shortcode( $atts ) {
+            
+            extract( shortcode_atts( array(
+                'id'  => ''
+            ), $atts ) );
+            
+            ob_start();
+            dynamic_sidebar( $id );
+            $output = ob_get_clean();
+            
+            return $output;
             
         }
         
