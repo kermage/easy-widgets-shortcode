@@ -76,6 +76,9 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 $wp_registered_widgets[$id]['params']
             ));
             
+            $classname = $wp_registered_widgets[$id]['classname'];
+            $params[0]['before_widget'] = sprintf( $params[0]['before_widget'], $id, $classname );
+            
             ob_start();
             call_user_func_array( $callback, $params );
             $output = ob_get_clean();
