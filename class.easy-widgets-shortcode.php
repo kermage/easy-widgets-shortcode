@@ -50,7 +50,8 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             
             extract( shortcode_atts( array(
                 'id'    => '',
-                'wrap'  => ''
+                'wrap'  => '',
+                'title'  => ''
             ), $atts ) );
             
             global $wp_registered_sidebars;
@@ -92,9 +93,23 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 }
             }
             
+            if ( ! empty( $title ) ) {
+                preg_match( '/<\/([^>]+)>/', $params[0]['after_title'], $def_tag );
+                if ( $title != 'false' ) {
+                    $params[0]['before_title'] = str_replace( $def_tag[1], $title, $params[0]['before_title'] );
+                    $params[0]['after_title'] = '</' . $title . '>';
+                }
+            }
+            
             ob_start();
             call_user_func_array( $callback, $params );
             $output = ob_get_clean();
+            
+            if ( ! empty( $title ) ) {
+                if ( $title == 'false' ) {
+                    $output = preg_replace( '/' . $params[0]['before_title'] . '(.*?)<\/' . $def_tag[1] . '>/', '', $output );
+                }
+            }
             
             return $output;
             
