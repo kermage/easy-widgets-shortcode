@@ -40,9 +40,6 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             if ( empty( $id ) )
                 return;
             
-            if ( ! dynamic_sidebar( $id ) )
-                return;
-            
             ob_start();
             dynamic_sidebar( $id );
             $output = ob_get_clean();
