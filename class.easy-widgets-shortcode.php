@@ -26,8 +26,8 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             
             add_shortcode( 'ews_sidebar', array( $this, 'sidebar_shortcode' ) );
             add_shortcode( 'ews_widget', array( $this, 'widget_shortcode' ) );
-            add_action( 'in_widget_form', array( $this, 'shortcode_info' ) );
-            add_action( 'widgets_init', array( $this, 'shortcodes_area' ) );
+            add_action( 'in_widget_form', array( $this, 'shortcode_info' ), 100, 3 );
+            add_action( 'widgets_init', array( $this, 'shortcodes_area' ), 100 );
             
         }
         
@@ -126,14 +126,14 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
         }
         
         
-        public function shortcode_info( $widget_instance ) {
+        public function shortcode_info( $widget, $return, $instance ) {
             
             echo '<p><strong>' . __( 'Shortcode', 'ews' ) . ':</strong><br>';
             
-            if ( $widget_instance->number == '__i__' ) {
+            if ( $widget->number == '__i__' ) {
                 echo __( 'Save the widget first!', 'ews' ) . '</p>';
             } else {
-                echo '<code>[ews_widget id="' . $widget_instance->id . '"]</code></p>';
+                echo '<code>[ews_widget id="' . $widget->id . '"]</code></p>';
             }
             
         }
