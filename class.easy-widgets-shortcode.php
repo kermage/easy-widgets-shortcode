@@ -145,10 +145,10 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
                 'id'            => 'ews-sidebar',
                 'description'   => __( 'Add widgets here to be used as shortcodes.', 'ews' ),
                 'class'         => '',
-                'before_widget' => '',
-                'after_widget'  => '',
-                'before_title'  => '',
-                'after_title'   => ''
+                'before_widget' => '<div id="%1$s" class="%2$s">',
+                'after_widget'  => '</div>',
+                'before_title'  => '<h3>',
+                'after_title'   => '</h3>'
             ) );
         }
         
