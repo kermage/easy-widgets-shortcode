@@ -26,7 +26,8 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             
             add_shortcode( 'ews_sidebar', array( $this, 'sidebar_shortcode' ) );
             add_shortcode( 'ews_widget', array( $this, 'widget_shortcode' ) );
-            add_action( 'in_widget_form', array( $this, 'shortcode_info' ), 100, 3 );
+            add_action( 'widgets_admin_page', array( $this, 'sidebar_shortcode_info' ), 100 );
+            add_action( 'in_widget_form', array( $this, 'widget_shortcode_info' ), 100, 3 );
             add_action( 'widgets_init', array( $this, 'shortcodes_area' ), 100 );
             
         }
@@ -126,7 +127,28 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
         }
         
         
-        public function shortcode_info( $widget, $return, $instance ) {
+        public function sidebar_shortcode_info() {
+
+            ob_start(); ?>
+            
+            <script type="text/javascript" id="ews-shortcode-info">
+                jQuery( document ).ready( function( $ ) {
+                    $( '.widgets-sortables' ).each( function() {
+                        console.log( this.id );
+                        $( this ).find( '.sidebar-description' ).append( '<p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>' );
+                    } );
+                } );
+            </script>
+
+            <?php
+            $output = ob_get_clean();
+            
+            echo $output;
+            
+        }
+        
+        
+        public function widget_shortcode_info( $widget, $return, $instance ) {
             
             echo '<p><strong>' . __( 'Shortcode', 'ews' ) . ':</strong><br>';
             
