@@ -133,8 +133,7 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             
             <script type="text/javascript" id="ews-shortcode-info">
                 jQuery( document ).ready( function( $ ) {
-                    $( '.widgets-sortables' ).each( function() {
-                        console.log( this.id );
+                    $( '.widgets-sortables' ).not( '#wp_inactive_widgets, #ews-sidebar' ).each( function() {
                         $( this ).find( '.sidebar-description' ).append( '<p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>' );
                     } );
                 } );
