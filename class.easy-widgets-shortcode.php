@@ -131,10 +131,14 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
 
             ob_start(); ?>
             
-            <script type="text/javascript" id="ews-shortcode-info">
+            <script type="text/javascript" id="ews-info">
                 jQuery( document ).ready( function( $ ) {
                     $( '.widgets-sortables' ).not( '#wp_inactive_widgets, #ews-sidebar' ).each( function() {
-                        $( this ).find( '.sidebar-description' ).append( '<p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>' );
+                        if ( $( this ).find( '.sidebar-description' ).length > 0 ) {
+                            $( this ).find( '.sidebar-description' ).append( '<p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>' );
+                        } else {
+                            $( this ).find( '.sidebar-name' ).after( '<div class="sidebar-description"><p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p></div>' );
+                        }
                     } );
                 } );
             </script>
