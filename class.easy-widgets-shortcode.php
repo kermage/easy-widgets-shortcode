@@ -28,6 +28,7 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             add_shortcode( 'ews_widget', array( $this, 'widget_shortcode' ) );
             add_action( 'widgets_admin_page', array( $this, 'sidebar_shortcode_info' ), 100 );
             add_action( 'in_widget_form', array( $this, 'widget_shortcode_info' ), 100, 3 );
+            add_action( 'widgets_admin_page', array( $this, 'shortcode_info_style' ), 100 );
             add_action( 'widgets_init', array( $this, 'shortcodes_area' ), 100 );
             
         }
@@ -132,12 +133,14 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
             ob_start(); ?>
             
             <script type="text/javascript" id="ews-info">
+                var ewsInfo;
                 jQuery( document ).ready( function( $ ) {
                     $( '.widgets-sortables' ).not( '#wp_inactive_widgets, #ews-sidebar' ).each( function() {
+                        ewsInfo = '<p class="ews-info"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>';
                         if ( $( this ).find( '.sidebar-description' ).length > 0 ) {
-                            $( this ).find( '.sidebar-description' ).append( '<p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p>' );
+                            $( this ).find( '.sidebar-description' ).append( ewsInfo );
                         } else {
-                            $( this ).find( '.sidebar-name' ).after( '<div class="sidebar-description"><p class="description"><strong>Shortcode:</strong><br><code>[ews_sidebar id="' + this.id + '"]</code></p></div>' );
+                            $( this ).find( '.sidebar-name' ).after( '<div class="sidebar-description">' + ewsInfo + '</div>' );
                         }
                     } );
                 } );
@@ -153,13 +156,38 @@ if ( ! class_exists( 'Easy_Widgets_Shortcode' ) ) {
         
         public function widget_shortcode_info( $widget, $return, $instance ) {
             
-            echo '<p><strong>' . __( 'Shortcode', 'ews' ) . ':</strong><br>';
+            echo '<p class="ews-info"><strong>' . __( 'Shortcode', 'ews' ) . ':</strong><br>';
             
             if ( $widget->number == '__i__' ) {
                 echo __( 'Save the widget first!', 'ews' ) . '</p>';
             } else {
                 echo '<code>[ews_widget id="' . $widget->id . '"]</code></p>';
             }
+            
+        }
+        
+        
+        public function shortcode_info_style() {
+
+            ob_start(); ?>
+
+            <style type="text/css">
+                .ews-info {
+                    margin: 0;
+                    padding: 0 7px 15px;
+                    color: #23282d;
+                    user-select: none;
+                }
+
+                .ews-info code {
+                    user-select: initial;
+                }
+            </style>
+
+            <?php
+            $output = ob_get_clean();
+            
+            echo $output;
             
         }
         
